@@ -5,17 +5,17 @@ class AuthorshipsControllerTest < ActionDispatch::IntegrationTest
     @authorship = authorships(:one)
   end
 
-  test "should get index" do
+  test 'gets index' do
     get authorships_url
     assert_response :success
   end
 
-  test "should get new" do
+  test 'gets new' do
     get new_authorship_url
     assert_response :success
   end
 
-  test "should create authorship" do
+  test 'creates authorship' do
     assert_difference('Authorship.count') do
       post authorships_url, params: { authorship: { article_id: @authorship.article_id, author_id: @authorship.author_id } }
     end
@@ -23,22 +23,22 @@ class AuthorshipsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to authorship_url(Authorship.last)
   end
 
-  test "should show authorship" do
+  test 'shows authorship' do
     get authorship_url(@authorship)
     assert_response :success
   end
 
-  test "should get edit" do
+  test 'gets edit' do
     get edit_authorship_url(@authorship)
     assert_response :success
   end
 
-  test "should update authorship" do
+  test 'updates authorship' do
     patch authorship_url(@authorship), params: { authorship: { article_id: @authorship.article_id, author_id: @authorship.author_id } }
     assert_redirected_to authorship_url(@authorship)
   end
 
-  test "should destroy authorship" do
+  test 'destroys authorship' do
     assert_difference('Authorship.count', -1) do
       delete authorship_url(@authorship)
     end

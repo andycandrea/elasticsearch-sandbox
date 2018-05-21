@@ -36,26 +36,26 @@ class SearchControllerTest < ActionController::TestCase
     Article.__elasticsearch__.refresh_index!
   end
 
-  test "should return search results" do
+  test 'returns search results' do
     get :index, params: { q: 'one' }
     assert_response :success
     assert_equal 3, assigns(:articles).size
   end
 
-  test "should return search results in comments" do
+  test 'returns search results in comments' do
     get :index, params: { q: 'one', comments: 'y' }
     assert_response :success
 
     assert_equal 4, assigns(:articles).size
   end
 
-  test "should return highlighted snippets" do
+  test 'returns highlighted snippets' do
     get :index, params: { q: 'one' }
     assert_response :success
     assert_match %r{<em class="label label-highlight">One</em>}, assigns(:articles).first.highlight.title.first
   end
 
-  test "should return suggestions" do
+  test 'returns suggestions' do
     get :index, params: { q: 'one' }
     assert_response :success
 
@@ -64,7 +64,7 @@ class SearchControllerTest < ActionController::TestCase
     assert_equal 'one', suggestions['suggest_title'][0]['text']
   end
 
-  test "should return facets" do
+  test 'returns facets' do
     get :index, params: { q: 'one' }
     assert_response :success
 
@@ -79,7 +79,7 @@ class SearchControllerTest < ActionController::TestCase
     assert_equal 1425254400000, aggregations['published']['published']['buckets'][0]['key']
   end
 
-  test "should sort on the published date" do
+  test 'sorts on the published date' do
     get :index, params: { q: 'one', s: 'published_on' }
     assert_response :success
 
@@ -89,7 +89,7 @@ class SearchControllerTest < ActionController::TestCase
     assert_equal '2015-03-06', assigns(:articles)[2].published_on
   end
 
-  test "should sort on the published date when no query is provided" do
+  test 'sorts on the published date when no query is provided' do
     get :index, params: { q: '' }
     assert_response :success
 
@@ -99,7 +99,7 @@ class SearchControllerTest < ActionController::TestCase
     assert_equal '2015-03-06', assigns(:articles)[2].published_on
   end
 
-  test "should filter search results and the author and published date facets when user selects a category" do
+  test 'filters search results and the author and published date facets when user selects a category' do
     get :index, params: { q: 'one', c: 'One' }
     assert_response :success
 
@@ -114,7 +114,7 @@ class SearchControllerTest < ActionController::TestCase
     assert_equal 2, aggregations['categories']['categories']['buckets'].size
   end
 
-  test "should filter search results and the category and published date facets when user selects a category" do
+  test 'filters search results and the category and published date facets when user selects a category' do
     get :index, params: { q: 'one', a: 'Mary Smith' }
     assert_response :success
 

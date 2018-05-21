@@ -1,5 +1,5 @@
 class AuthorshipsController < ApplicationController
-  before_action :set_authorship, only: [:show, :edit, :update, :destroy]
+  before_action :set_authorship, only: %i(show edit update destroy)
 
   # GET /authorships
   # GET /authorships.json
@@ -62,13 +62,14 @@ class AuthorshipsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_authorship
-      @authorship = Authorship.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def authorship_params
-      params.require(:authorship).permit(:article_id, :author_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_authorship
+    @authorship = Authorship.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def authorship_params
+    params.require(:authorship).permit(:article_id, :author_id)
+  end
 end

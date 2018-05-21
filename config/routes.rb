@@ -1,12 +1,14 @@
 Rails.application.routes.draw do
-  get '/search', to: 'search#index', as: 'search'
   resources :authorships
   resources :authors
   resources :categories
-  root to: 'search#index'
   resources :articles do
-    collection { get :search }
+    collection do
+      get :search
+    end
   end
 
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  get '/search', to: 'search#index', as: 'search'
+
+  root to: 'search#index'
 end

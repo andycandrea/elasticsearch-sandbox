@@ -2,7 +2,7 @@ require 'zlib'
 require 'yaml'
 
 Zlib::GzipReader.open(File.expand_path('../articles.yml.gz', __FILE__)) do |gzip|
-  puts "Reading articles from gzipped YAML..."
+  puts 'Reading articles from gzipped YAML...'
   @documents = YAML.load_documents(gzip.read)
 end
 
@@ -11,8 +11,8 @@ ActiveRecord::Base.logger = ActiveSupport::Logger.new(STDERR)
 ActiveRecord::Base.logger.instance_eval do
   @formatter = lambda do |s, d, p, message|
     message
-      .gsub(/\[("content", ".*?")\]/m) { |match| match[0..100] + '..."]' }
-      .gsub(/\[("body", ".*?")\]/m   ) { |match| match[0..100] + '..."]' }
+      .gsub(/\[('content', '.*?')\]/m) { |match| match[0..100] + '..."]' }
+      .gsub(/\[('body', '.*?')\]/m   ) { |match| match[0..100] + '..."]' }
       .strip
       .concat("\n")
   end
@@ -52,6 +52,5 @@ end
 end
 
 # Remove any jobs from the "elasticsearch" Sidekiq queue
-#
 require 'sidekiq/api'
-Sidekiq::Queue.new("elasticsearch").clear
+Sidekiq::Queue.new('elasticsearch').clear

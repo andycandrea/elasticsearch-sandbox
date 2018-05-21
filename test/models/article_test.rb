@@ -5,9 +5,7 @@ class ArticleTest < ActiveSupport::TestCase
     Article.__elasticsearch__.unstub(:search)
   end
 
-
-  
-  test "has a search method delegating to __elasticsearch__" do
+  test 'delegates #search to __elasticsearch__' do
     Article.__elasticsearch__.expects(:search).with do |definition|
       assert_equal 'foo', definition.to_hash[:query][:bool][:should][0][:multi_match][:query]
       true
@@ -15,5 +13,4 @@ class ArticleTest < ActiveSupport::TestCase
 
     Article.search 'foo'
   end
-
 end
