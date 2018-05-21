@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_21_020729) do
+ActiveRecord::Schema.define(version: 2018_05_21_020919) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title"
@@ -18,6 +18,47 @@ ActiveRecord::Schema.define(version: 2018_05_21_020729) do
     t.date "published_on"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "articles_categories", force: :cascade do |t|
+    t.integer "article_id"
+    t.integer "category_id"
+    t.index ["article_id"], name: "index_articles_categories_on_article_id"
+    t.index ["category_id"], name: "index_articles_categories_on_category_id"
+  end
+
+  create_table "authors", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "authorships", force: :cascade do |t|
+    t.integer "article_id"
+    t.integer "author_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_id"], name: "index_authorships_on_article_id"
+    t.index ["author_id"], name: "index_authorships_on_author_id"
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "body"
+    t.string "user"
+    t.string "user_location"
+    t.integer "stars"
+    t.boolean "pick"
+    t.integer "article_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_id"], name: "index_comments_on_article_id"
   end
 
 end
