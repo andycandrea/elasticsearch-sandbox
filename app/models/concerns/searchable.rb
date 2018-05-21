@@ -181,8 +181,12 @@ module Searchable
           }
         }
       end
+      definition_to_search = @search_definition
+      if definition_to_search[:post_filter].blank?
+        definition_to_search = definition_to_search.without(:post_filter)
+      end
 
-      __elasticsearch__.search(@search_definition)
+      __elasticsearch__.search(definition_to_search)
     end
 
     # Customize the JSON serialization for Elasticsearch
