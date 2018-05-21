@@ -45,10 +45,10 @@ module Searchable
     end
 
     # Set up callbacks for updating the index on model changes
-    after_commit lambda { Indexer.perform_async(:index,  self.class.to_s, self.id) }, on: :create
-    after_commit lambda { Indexer.perform_async(:update, self.class.to_s, self.id) }, on: :update
-    after_commit lambda { Indexer.perform_async(:delete, self.class.to_s, self.id) }, on: :destroy
-    after_touch  lambda { Indexer.perform_async(:update, self.class.to_s, self.id) }
+    after_commit -> { Indexer.perform_async(:index,  self.class.to_s, id) }, on: :create
+    after_commit -> { Indexer.perform_async(:update, self.class.to_s, id) }, on: :update
+    after_commit -> { Indexer.perform_async(:delete, self.class.to_s, id) }, on: :destroy
+    after_touch  -> { Indexer.perform_async(:update, self.class.to_s, id) }
 
     # Search in title and content fields for `query`, include highlights in response
     #
@@ -56,7 +56,7 @@ module Searchable
     # @return [Elasticsearch::Model::Response::Response]
     def self.search(query, options = {})
       # Prefill and set the filters (top-level `post_filter` and aggregation `filter` elements)
-      __set_filters = lambda do |key, f|
+      __set_filters = ->(key, f) do
         @search_definition[:post_filter][:bool] ||= {}
         @search_definition[:post_filter][:bool][:must] ||= []
         @search_definition[:post_filter][:bool][:must]  |= [f]
@@ -79,15 +79,15 @@ module Searchable
         post_filter: {},
         aggregations: {
           categories: {
-            filter: { bool: { must: [ match_all: {} ] } },
+            filter: { bool: { must: [match_all: {}] } },
             aggregations: { categories: { terms: { field: 'categories' } } }
           },
           authors: {
-            filter: { bool: { must: [ match_all: {} ] } },
+            filter: { bool: { must: [match_all: {}] } },
             aggregations: { authors: { terms: { field: 'authors.full_name.raw' } } }
           },
           published: {
-            filter: { bool: { must: [ match_all: {} ] } },
+            filter: { bool: { must: [match_all: {}] } },
             aggregations: {
               published: { date_histogram: { field: 'published_on', interval: 'week' } }
             }
@@ -117,15 +117,15 @@ module Searchable
       if options[:category]
         f = { term: { categories: options[:category] } }
 
-        __set_filters.(:authors, f)
-        __set_filters.(:published, f)
+        __set_filters.call(:authors, f)
+        __set_filters.call(:published, f)
       end
 
       if options[:author]
         f = { term: { 'authors.full_name.raw' => options[:author] } }
 
-        __set_filters.(:categories, f)
-        __set_filters.(:published, f)
+        __set_filters.call(:categories, f)
+        __set_filters.call(:published, f)
       end
 
       if options[:published_week]
@@ -138,8 +138,8 @@ module Searchable
           }
         }
 
-        __set_filters.(:categories, f)
-        __set_filters.(:authors, f)
+        __set_filters.call(:categories, f)
+        __set_filters.call(:authors, f)
       end
 
       if query.present? && options[:comments]
@@ -156,15 +156,15 @@ module Searchable
             }
           }
         }
-        @search_definition[:highlight][:fields].update 'comments.body' => { fragment_size: 50 }
+        @search_definition[:highlight][:fields].update('comments.body' => { fragment_size: 50 })
       end
 
       if options[:sort]
-        @search_definition[:sort]  = { options[:sort] => 'desc' }
+        @search_definition[:sort] = { options[:sort] => 'desc' }
         @search_definition[:track_scores] = true
       end
 
-      unless query.blank?
+      if query.present?
         @search_definition[:suggest] = {
           text: query,
           suggest_title: {
@@ -190,11 +190,11 @@ module Searchable
     end
 
     # Customize the JSON serialization for Elasticsearch
-    def as_indexed_json(options = {})
-      hash = self.as_json(
+    def as_indexed_json(_options = {})
+      hash = as_json(
         include: {
           authors:  { methods: [:full_name], only: [:full_name] },
-          comments: { only: %i(body stars pick user user_location) }
+          comments: { only: %i[body stars pick user user_location] }
         }
       )
       hash['categories'] = categories.map(&:title)

@@ -1,5 +1,5 @@
 class AuthorsController < ApplicationController
-  before_action :set_author, only: %i(show edit update destroy)
+  before_action :set_author, only: %i[show edit update destroy]
 
   # GET /authors
   # GET /authors.json
@@ -54,7 +54,7 @@ class AuthorsController < ApplicationController
   # DELETE /authors/1
   # DELETE /authors/1.json
   def destroy
-    @author.destroy
+    @author.destroy!
     respond_to do |format|
       format.html { redirect_to authors_url, notice: 'Author was successfully destroyed.' }
       format.json { head :no_content }

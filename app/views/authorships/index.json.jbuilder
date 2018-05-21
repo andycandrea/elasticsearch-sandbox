@@ -1,1 +1,1 @@
-json.array! @authorships, partial: 'authorships/authorship', as: :authorship
+json.array!(@authorships, partial: 'authorships/authorship', as: :authorship)

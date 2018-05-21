@@ -11,4 +11,3 @@ class SearchController < ApplicationController
     @articles = Article.search(params[:q], options).page(params[:page]).results
   end
 end
-

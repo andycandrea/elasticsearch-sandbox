@@ -1,4 +1,4 @@
-require 'test_helper'
+require('test_helper')
 
 class ArticleTest < ActiveSupport::TestCase
   teardown do
@@ -11,6 +11,6 @@ class ArticleTest < ActiveSupport::TestCase
       true
     end
 
-    Article.search 'foo'
+    Article.search('foo')
   end
 end

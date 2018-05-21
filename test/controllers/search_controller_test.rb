@@ -1,8 +1,8 @@
-require 'test_helper'
+require('test_helper')
 
 class SearchControllerTest < ActionController::TestCase
   setup do
-    Time.stubs(:now).returns(Time.new(2015, 03, 16, 10, 00, 00, 0))
+    Time.stubs(:now).returns(Time.new(2015, 3, 16, 10, 0, 0, 0))
 
     Article.delete_all
 
@@ -15,11 +15,12 @@ class SearchControllerTest < ActionController::TestCase
     ]
 
     articles.each do |a|
-      article = Article.create! \
+      article = Article.create!(
         title:    a[:title],
         abstract: a[:abstract],
         content:  a[:content],
         published_on: a[:published_on]
+      )
 
       article.categories << Category.find_or_create_by!(title: a[:category_title])
 
@@ -28,11 +29,11 @@ class SearchControllerTest < ActionController::TestCase
       article.save!
     end
 
-    Article.find_by_title('Article Three').comments.create body: 'One'
+    Article.find_by(title: 'Article Three').comments.create!(body: 'One')
 
     Sidekiq::Worker.clear_all
 
-    Article.__elasticsearch__.import force: true
+    Article.__elasticsearch__.import(force: true)
     Article.__elasticsearch__.refresh_index!
   end
 
@@ -76,7 +77,7 @@ class SearchControllerTest < ActionController::TestCase
 
     assert_equal 'One', aggregations['categories']['categories']['buckets'][0]['key']
     assert_equal 'John Smith', aggregations['authors']['authors']['buckets'][0]['key']
-    assert_equal 1425254400000, aggregations['published']['published']['buckets'][0]['key']
+    assert_equal 1_425_254_400_000, aggregations['published']['published']['buckets'][0]['key']
   end
 
   test 'sorts on the published date' do

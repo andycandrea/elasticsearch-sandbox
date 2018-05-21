@@ -1,7 +1,7 @@
 # Ruby on Rails and Elasticsearch: Example application
 
-This application is an example of integrating the [Elasticsearch][http://www.elasticsearch.org]
-search engine with the [Ruby On Rails][http://rubyonrails.org] web framework.
+This application is an example of integrating the [Elasticsearch](http://www.elasticsearch.org)
+search engine with the [Ruby On Rails](http://rubyonrails.org) web framework.
 
 For the most part, this was generated with Elastic's templates available at
 https://github.com/elasticsearch/elasticsearch-rails/tree/master/elasticsearch-rails/lib/rails/templates.

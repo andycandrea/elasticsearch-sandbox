@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  before_action :set_article, only: %i(show edit update destroy)
+  before_action :set_article, only: %i[show edit update destroy]
 
   # GET /articles
   # GET /articles.json
@@ -11,7 +11,7 @@ class ArticlesController < ApplicationController
   def search
     @articles = Article.search(params[:q]).page(params[:page]).records
 
-    render 'index'
+    render('index')
   end
 
   # GET /articles/1
@@ -61,7 +61,7 @@ class ArticlesController < ApplicationController
   # DELETE /articles/1
   # DELETE /articles/1.json
   def destroy
-    @article.destroy
+    @article.destroy!
     respond_to do |format|
       format.html { redirect_to articles_url, notice: 'Article was successfully destroyed.' }
       format.json { head :no_content }

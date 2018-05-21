@@ -1,13 +1,12 @@
-require 'test_helper'
+require('test_helper')
 
 class ArticlesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @article = articles(:one)
 
-    Article.__elasticsearch__.import force: true
+    Article.__elasticsearch__.import(force: true)
     Article.__elasticsearch__.refresh_index!
   end
-
 
   test 'gets index' do
     get articles_url
@@ -20,7 +19,6 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_not_nil assigns(:articles)
     assert_equal 2, assigns(:articles).size
   end
-
 
   test 'gets new' do
     get new_article_url

@@ -1,5 +1,5 @@
 class AuthorshipsController < ApplicationController
-  before_action :set_authorship, only: %i(show edit update destroy)
+  before_action :set_authorship, only: %i[show edit update destroy]
 
   # GET /authorships
   # GET /authorships.json
@@ -54,7 +54,7 @@ class AuthorshipsController < ApplicationController
   # DELETE /authorships/1
   # DELETE /authorships/1.json
   def destroy
-    @authorship.destroy
+    @authorship.destroy!
     respond_to do |format|
       format.html { redirect_to authorships_url, notice: 'Authorship was successfully destroyed.' }
       format.json { head :no_content }

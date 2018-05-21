@@ -1,1 +1,1 @@
-json.partial! "authorships/authorship", authorship: @authorship
+json.partial!('authorships/authorship', authorship: @authorship)

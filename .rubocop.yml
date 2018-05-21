@@ -1,0 +1,109 @@
+AllCops:
+  Exclude:
+    - '**/*.jbuilder'
+    - '**/db/schema.rb'
+  TargetRubyVersion: 2.5
+  TargetRailsVersion: 5.2
+
+Layout/ClassStructure:
+  Enabled: true
+Layout/EmptyLineAfterGuardClause:
+  Enabled: true
+Layout/FirstArrayElementLineBreak:
+  Enabled: true
+Layout/FirstHashElementLineBreak:
+  Enabled: true
+Layout/FirstMethodArgumentLineBreak:
+  Enabled: true
+Layout/FirstMethodParameterLineBreak:
+  Enabled: true
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
+Metrics/AbcSize:
+  Exclude:
+    - '**/db/migrate/**/*'
+Metrics/BlockLength:
+  Exclude:
+    - '**/config/**/*'
+    - '**/db/migrate/**/*'
+Metrics/CyclomaticComplexity:
+  Max: 5
+Metrics/LineLength:
+  Exclude:
+    - '**/db/migrate/**/*'
+  Max: 80
+Metrics/MethodLength:
+  Exclude:
+    - '**/db/migrate/**/*'
+Metrics/PerceivedComplexity:
+  Max: 5
+
+Naming/UncommunicativeBlockParamName:
+  AllowedNames:
+    - id
+    - _
+Naming/UncommunicativeMethodParamName:
+  AllowedNames:
+    - id
+    - _
+Naming/VariableNumber:
+  EnforcedStyle: snake_case
+
+# `foo.downcase == bar.downcase` is more readable than
+# `foo.casecmp(bar).zero?`
+Performance/Casecmp:
+  Enabled: false
+
+Rails:
+  Enabled: true
+Rails/Output:
+  Exclude:
+    - '**/db/seeds.rb'
+    - '**/lib/tasks/**/*'
+Rails/SaveBang:
+  Enabled: true
+Rails/UniqBeforePluck:
+  EnforcedStyle: aggressive
+
+Style/AutoResourceCleanup:
+  Enabled: true
+Style/CollectionMethods:
+  Enabled: true
+Style/ConditionalAssignment:
+  EnforcedStyle: assign_inside_condition
+  IncludeTernaryExpressions: false
+Style/Documentation:
+  Exclude:
+    - '**/controllers/**/*'
+Style/DocumentationMethod:
+  Enabled: true
+  Exclude:
+    - '**/controllers/**/*'
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/ImplicitRuntimeError:
+  Enabled: true
+Style/InlineComment:
+  Enabled: true
+Style/Lambda:
+  EnforcedStyle: literal
+Style/MethodCallWithArgsParentheses:
+  Enabled: true
+# Plenty of valid use cases for both Enforced Styles
+Style/NumericPredicate:
+  Enabled: false
+Style/OptionHash:
+  Enabled: true
+Style/RedundantBegin:
+  Enabled: true
+Style/Send:
+  Enabled: true
+Style/StringMethods:
+  Enabled: true
+Style/ZeroLengthPredicate:
+  Enabled: true
