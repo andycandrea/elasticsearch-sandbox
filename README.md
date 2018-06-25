@@ -19,6 +19,14 @@ prevented the application from running.
 
 Note: elasticsearch and Kibana were both installed via Homebrew.
 
+## Local setup (macOS)
+
+```
+bundle
+bundle exec rake db:setup
+bundle exec rake environment rake elasticsearch:import:all
+```
+
 ## [1] Basic
 
 The `basic` version provides a simple integration for a simple Rails model, `Article`, showing how
